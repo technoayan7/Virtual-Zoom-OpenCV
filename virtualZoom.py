@@ -1,5 +1,8 @@
 import cv2
 from cvzone.HandTrackingModule import HandDetector
+import os
+print(os.path.exists('resized_test.jpg'))
+
 
 # Input from webcam
 frame = cv2.VideoCapture(0)
@@ -16,12 +19,19 @@ cx, cy = 500, 500
 while True:
     # Read the input frame
     res, img = frame.read()
+    if not res:
+        print("Failed to read frame from webcam.")
+        break
 
     # Detect the hands
     hands, img = handDetector.findHands(img)
 
     # Image to be zoomed
     new_img = cv2.imread('resized_test.jpg')
+    if new_img is None:
+        print("Error: Unable to load the image!")
+        break
+
 
     # if two hands are detected
     if len(hands) == 2:
